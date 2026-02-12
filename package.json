@@ -1,0 +1,22 @@
+{
+  "name": "hadits-app",
+  "version": "1.0.0",
+  "description": "A beautiful Hadith application with Bootstrap card views, pagination, SweetAlert popups, and Font Awesome icons",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "mkdir -p dist && cp index.html dist/ && cp app.js dist/",
+    "start": "npm run dev"
+  },
+  "keywords": [
+    "hadith",
+    "islam",
+    "bootstrap",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.0"
+  }
+}

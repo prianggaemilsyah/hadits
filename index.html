@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Hadits</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #2d3748;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            color: #718096;
+        }
+        
+        .book-card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            height: 100%;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .book-card .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px 12px 0 0 !important;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .book-card .card-body {
+            background: white;
+            border-radius: 0 0 12px 12px;
+            padding: 24px;
+        }
+        
+        .book-card .book-id {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .book-card .book-count {
+            color: #48bb78;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .hadith-card {
+            transition: all 0.3s ease;
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .hadith-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .hadith-number {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .hadith-arab {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: #1a202c;
+            margin-bottom: 20px;
+            font-family: 'Arial', sans-serif;
+            text-align: right;
+        }
+        
+        .hadith-id {
+            color: #4a5568;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+        
+        .error-message {
+            text-align: center;
+            padding: 40px;
+            color: #e53e3e;
+            font-size: 1.1rem;
+        }
+        
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .pagination {
+            gap: 10px;
+        }
+        
+        .page-link {
+            border: 1px solid #e2e8f0;
+            color: #667eea;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .page-link:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        
+        .page-link.active {
+            background: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+        
+        .nav-buttons {
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .hadith-arab {
+                font-size: 1.2rem;
+            }
+            
+            .book-card .card-body {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fas fa-book-open"></i> Aplikasi Hadits</h1>
+            <p>Hadits Rasulullah SAW dari 9 Kitab Hadits Shahih</p>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="d-flex justify-content-center nav-buttons flex-wrap">
+            <button class="btn btn-primary" onclick="showBookList()">
+                <i class="fas fa-list"></i> Daftar Kitab
+            </button>
+            <button class="btn btn-success" onclick="showRandomHadith()">
+                <i class="fas fa-random"></i> Hadits Acak
+            </button>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="loading-spinner d-none">
+            <i class="fas fa-spinner fa-spin fa-3x mb-3"></i>
+            <p>Memuat data...</p>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message d-none"></div>
+
+        <!-- Books List -->
+        <div id="booksList" class="row g-4"></div>
+
+        <!-- Hadiths List -->
+        <div id="hadithsList" class="row g-4"></div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="pagination-container"></div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- HTML2Canvas JS -->
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    
+    <!-- JavaScript -->
+    <script src="app.js"></script>
+</body>
+</html>
